@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 /**
 删除链表倒数第N个节点，lc 19
@@ -11,15 +13,7 @@ func main() {
 	var n int = 1
 	n = n + 1
 	end := removeNthFromEnd(head, n)
-	for end.Next != nil {
-		fmt.Println("node =", end)
-		end = end.Next
-	}
-}
-
-type ListNode struct {
-	Next *ListNode
-	data int
+	printNode(end)
 }
 
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
@@ -49,4 +43,21 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	}
 	pre.Next = pre.Next.Next
 	return result.Next
+}
+
+type ListNode struct {
+	Next *ListNode
+	data int
+}
+
+func printNode(node *ListNode) {
+	var nodeData []int
+	res := &ListNode{}
+	res = node
+	for res.Next != nil {
+		nodeData = append(nodeData, res.data)
+		res = res.Next
+	}
+	nodeData = append(nodeData, res.data)
+	fmt.Println("nodeData =", nodeData)
 }
