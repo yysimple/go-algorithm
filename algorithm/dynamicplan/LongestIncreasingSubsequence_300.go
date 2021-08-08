@@ -15,19 +15,19 @@ func lengthOfLIS(nums []int) int {
 	if len(nums) < 1 {
 		return 0
 	}
-	dp := make([]int, len(nums))
-	result := 1
+	newArr := make([]int, len(nums))
+	res := 1
 	for i := 0; i < len(nums); i++ {
 		// 这个就是用来记录索引位置为多少的时候，最大连续上升区间是多少
-		dp[i] = 1
+		newArr[i] = 1
 		for j := 0; j < i; j++ {
 			if nums[j] < nums[i] {
-				dp[i] = max(dp[j]+1, dp[i])
+				newArr[i] = max(newArr[i]+1, newArr[i])
 			}
 		}
-		result = max(result, dp[i])
+		res = max(res, newArr[i])
 	}
-	return result
+	return res
 }
 
 func max(a, b int) int {
