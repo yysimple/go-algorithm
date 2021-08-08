@@ -7,7 +7,7 @@ import "fmt"
 */
 func main() {
 	nums := []int{-2, 1, -3, 4, -1, 2, 1, -5, 4, 7}
-	array := simpleSubMax(nums)
+	array := maxSubArr(nums)
 	fmt.Println("maxSub =", array)
 }
 
@@ -22,19 +22,20 @@ func maxSubArray(nums []int) int {
 		return 0
 	}
 	res := 0
-	newArray := make([]int, len(nums))
+	var newArray []int
+	var indexArr []int
 	res = nums[0]
 	for i := 1; i < len(nums); i++ {
 		if res < 0 {
 			res = nums[i]
 		} else {
-			newArray = append(newArray, res)
 			res += nums[i]
+			newArray = append(newArray, res)
+			indexArr = append(indexArr, i+1)
 		}
 	}
-	for i := 0; i < len(newArray); i++ {
-		res = maxNum(res, newArray[i])
-	}
+	fmt.Println("maxArr =", newArray)
+	fmt.Println("indexArr =", indexArr)
 	return res
 }
 
@@ -48,6 +49,15 @@ func maxSubArr(nums []int) int {
 	newArr := make([]int, len(nums))
 	newArr[0] = nums[0]
 	for i := 1; i < len(nums); i++ {
+		/**
+		这里再来总结下动态规划的思想：
+		首先我们的需求：给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+		这里需求解读一下，我们需要找到最大和的连续子数组,返回最大值；
+		我们应该想到的是，拆分数组，每次都只是简单的对比前后相邻的值，然后取最大值存入到新的数组中；
+		这里就是理解为根据需求，拆分成一个个小的逻辑单元，他们都有一定的关系（取最大值也就是代码中的 if-else），然后在聚合这些类似操作
+		得到最终想要的，这里其实也就是按部就班的操作，但是又没有明确的第一步应该做什么，第二部应该做什么？只要能拆分成相同的逻辑单元就行，
+		而这个逻辑单元就是状态转移方程；将连续子数组最大和，拆分成两数之间的最大值，只是后面一直在累加而已之前的最大值，然后又跟下一位对比求最大值；
+		*/
 		if newArr[i-1] < 0 {
 			newArr[i] = nums[i]
 		} else {
@@ -58,23 +68,7 @@ func maxSubArr(nums []int) int {
 	for _, k := range newArr {
 		res = maxNum(res, k)
 	}
-	return res
-}
-
-/**
-这种方式就是记录每次的最大值，最后将res返回就行
-*/
-func simpleSubMax(nums []int) int {
-	if len(nums) < 1 {
-		return 0
-	}
-	newArr := make([]int, len(nums))
-	res := nums[0]
-	newArr[0] = nums[0]
-	for i := 1; i < len(nums); i++ {
-		newArr[i] = maxNum(newArr[i-1]+nums[i], nums[i])
-		res = maxNum(res, newArr[i])
-	}
+	fmt.Println("maxArr =", newArr)
 	return res
 }
 
