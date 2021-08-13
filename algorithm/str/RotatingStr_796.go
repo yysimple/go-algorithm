@@ -5,9 +5,7 @@ import "fmt"
 /**
 旋转字符串，lc 796
 */
-func main{
-    str := "abcde"
+func main() {
+	str := "abcde"
+	fmt.Println("str =", str)
 }
-
-
-
