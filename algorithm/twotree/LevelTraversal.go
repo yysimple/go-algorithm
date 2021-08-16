@@ -8,25 +8,32 @@ import "fmt"
 func main() {
 	tree := buildTwoTree()
 	order := levelOrder(tree)
-	for key, value := range order {
-		fmt.Println("key =", key)
-		fmt.Println("value =", value)
-	}
+	fmt.Println("order =", order)
+
+	dg := levelOrderDg(tree)
+	fmt.Println("dg =", dg)
 }
 
-func levelOrder(root *TreeNode) map[int][]*TreeNode {
-	res := make(map[int][]*TreeNode)
-	level := 1
+/**
+广度优先搜索
+*/
+func levelOrder(root *TreeNode) [][]string {
+	var res [][]string
+	level := 0
 	if root == nil {
-		return map[int][]*TreeNode{level: {&TreeNode{}}}
+		return res
 	}
 	var queue []*TreeNode
 	queue = append(queue, root)
 	for len(queue) > 0 {
 		queueLen := len(queue)
-		res = map[int][]*TreeNode{level: queue}
 		for queueLen > 0 {
 			node := queue[0]
+			if len(res) == level {
+				res = append(res, []string{node.data})
+			} else {
+				res[level] = append(res[level], node.data)
+			}
 			queue = queue[1:]
 			if node.left != nil {
 				queue = append(queue, node.left)
@@ -38,6 +45,24 @@ func levelOrder(root *TreeNode) map[int][]*TreeNode {
 		}
 		level++
 	}
+	return res
+}
+
+func levelOrderDg(root *TreeNode) [][]string {
+	return dfs(root, 0, [][]string{})
+}
+
+func dfs(root *TreeNode, level int, res [][]string) [][]string {
+	if root == nil {
+		return res
+	}
+	if len(res) == level {
+		res = append(res, []string{root.data})
+	} else {
+		res[level] = append(res[level], root.data)
+	}
+	res = dfs(root.left, level+1, res)
+	res = dfs(root.right, level+1, res)
 	return res
 }
 
