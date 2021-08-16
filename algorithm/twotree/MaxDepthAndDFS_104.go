@@ -14,7 +14,7 @@ func main() {
 }
 
 /**
-广度遍历
+广度优先搜索遍历
 */
 func maxDepthWidth(root *TreeNode) int {
 	if root == nil {
