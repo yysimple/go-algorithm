@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"container/list"
+	"fmt"
+)
 
 /**
 层次遍历与BFS， lc 102
@@ -12,6 +15,9 @@ func main() {
 
 	dg := levelOrderDg(tree)
 	fmt.Println("dg =", dg)
+
+	queue := levelOrderTwoQueue(tree)
+	fmt.Println("queue =", queue)
 }
 
 /**
@@ -46,6 +52,40 @@ func levelOrder(root *TreeNode) [][]string {
 		level++
 	}
 	return res
+}
+
+/**
+双向链表解法
+*/
+func levelOrderTwoQueue(root *TreeNode) [][]string {
+	var result [][]string
+	if root == nil {
+		return result
+	}
+	// 定义一个双向队列
+	queue := list.New()
+	// 头部插入根节点
+	queue.PushFront(root)
+	// 进行广度搜索
+	for queue.Len() > 0 {
+		var current []string
+		listLength := queue.Len()
+		for i := 0; i < listLength; i++ {
+			// 消耗尾部
+			// queue.Remove(queue.Back()).(*TreeNode)：移除最后一个元素并将其转化为TreeNode类型
+			node := queue.Remove(queue.Back()).(*TreeNode)
+			current = append(current, node.data)
+			if node.left != nil {
+				//插入头部
+				queue.PushFront(node.left)
+			}
+			if node.right != nil {
+				queue.PushFront(node.right)
+			}
+		}
+		result = append(result, current)
+	}
+	return result
 }
 
 func levelOrderDg(root *TreeNode) [][]string {
