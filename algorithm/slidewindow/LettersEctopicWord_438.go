@@ -10,6 +10,8 @@ func main() {
 	target := "abc"
 	anagrams := findAnagrams(str, target)
 	fmt.Println("anagrams =", anagrams)
+	twoMap := findAnagramsForTwoMap(str, target)
+	fmt.Println("res =", twoMap)
 }
 
 func findAnagrams(s string, p string) []int {
@@ -51,9 +53,13 @@ func findAnagramsForTwoMap(s string, p string) []int {
 	for i := range p {
 		need[p[i]]++
 	}
+	// 指针，用来记录窗口的位置
 	left, right := 0, 0
+	// 用来记录窗口里面包含了几个 为 1的元素
 	valid := 0
+	// 记录索引位置
 	indexs := []int{}
+	// 只要没到
 	for right < len(s) {
 		c := s[right]
 		right++
