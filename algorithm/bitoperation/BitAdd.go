@@ -15,6 +15,9 @@ func plus(a *int, b int) bool {
 	return true
 }
 
+/**
+这里的思想就是递归往下查，有点类似 斐波那契 求解过程，这是用的是 && 且的求解方式
+*/
 func sumNums(n int) int {
 	_ = n > 0 && plus(&n, sumNums(n-1))
 	return n
