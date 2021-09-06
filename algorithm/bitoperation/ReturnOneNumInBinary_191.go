@@ -10,6 +10,9 @@ func main() {
 	fmt.Println("nums =", weight)
 }
 
+/**
+这里比较简单，就是利用 & 的特性，相同则位1，这里只需要掩码 0001 的 1 一直左移就行，然后 & 运算之后为1则 ++
+*/
 func hammingWeight(target int) int {
 	res := 0
 	mask := 1
